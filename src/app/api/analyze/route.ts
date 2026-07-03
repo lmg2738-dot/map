@@ -17,7 +17,9 @@ export async function GET(request: Request) {
   }
 
   try {
-    logger.info("Analysis started", "analyze", { address: address.trim().slice(0, 30) });
+    logger.info("Analysis started", "analyze", {
+      address: address.trim().slice(0, 30),
+    });
     const analysis = await analyzeLandLive(address.trim());
     logRequest("GET", "/api/analyze", 200, Date.now() - start);
     logger.info("Analysis completed", "analyze", {
@@ -37,6 +39,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const start = Date.now();
   let address = "";
+
   try {
     const body = await request.json();
     address = body?.address?.trim() ?? "";
@@ -49,7 +52,9 @@ export async function POST(request: Request) {
       );
     }
 
-    logger.info("Analysis started", "analyze", { address: address.slice(0, 30) });
+    logger.info("Analysis started", "analyze", {
+      address: address.slice(0, 30),
+    });
     const analysis = await analyzeLandLive(address);
     logRequest("POST", "/api/analyze", 200, Date.now() - start);
     return NextResponse.json(analysis);
