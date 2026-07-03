@@ -2,6 +2,9 @@
   "name": "landscout",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "next dev",
     "dev:clean": "node -e \"try{require('fs').rmSync('.next',{recursive:true,force:true})}catch(e){}\" && next dev",
@@ -14,7 +17,7 @@
     "@react-three/drei": "10.0.4",
     "@react-three/fiber": "9.0.4",
     "lucide-react": "0.469.0",
-    "next": "^16.2.10",
+    "next": "16.2.10",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "three": "0.172.0"
