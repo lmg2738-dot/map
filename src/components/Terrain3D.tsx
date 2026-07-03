@@ -48,16 +48,13 @@ function TerrainMesh({ seed, slopeGrade }: TerrainMeshProps) {
 }
 
 function ParcelBoundary() {
-  const points = useMemo(
-    () => [
-      [-2, 0.05, -2] as [number, number, number],
-      [2, 0.05, -2],
-      [2, 0.05, 2],
-      [-2, 0.05, 2],
-      [-2, 0.05, -2],
-    ],
-    []
-  );
+  const points: [number, number, number][] = [
+    [-2, 0.05, -2],
+    [2, 0.05, -2],
+    [2, 0.05, 2],
+    [-2, 0.05, 2],
+    [-2, 0.05, -2],
+  ];
   return <Line points={points} color="#0ea5e9" lineWidth={2} />;
 }
 

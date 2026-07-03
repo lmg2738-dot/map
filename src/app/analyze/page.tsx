@@ -33,10 +33,15 @@ function AnalyzeContent() {
   }, [router]);
 
   useEffect(() => {
-    if (initialAddress) {
-      runAnalysis(initialAddress);
-    }
-  }, [initialAddress, runAnalysis]);
+    if (!initialAddress.trim()) return;
+    setAddress(initialAddress);
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setAnalysis(analyzeLand(initialAddress.trim()));
+      setLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [initialAddress]);
 
   const handleDownload = () => {
     alert(
