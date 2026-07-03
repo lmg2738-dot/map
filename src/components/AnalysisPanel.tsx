@@ -83,6 +83,9 @@ export default function AnalysisPanel({
       </div>
 
       <p className="text-sm leading-relaxed text-muted">{analysis.summary}</p>
+      {analysis.aiModel && (
+        <p className="text-xs text-muted">AI 모델: {analysis.aiModel}</p>
+      )}
 
       <div className="grid grid-cols-2 gap-2 text-center">
         <div className="rounded-xl border border-border bg-surface p-3">

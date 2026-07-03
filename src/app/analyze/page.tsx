@@ -8,8 +8,13 @@ import Header from "@/components/Header";
 import MapPanel from "@/components/MapPanel";
 import AnalysisPanel from "@/components/AnalysisPanel";
 import AddressSearch from "@/components/AddressSearch";
-import { analyzeLand } from "@/lib/mock-analysis";
 import type { LandAnalysis } from "@/lib/types";
+
+async function fetchAnalysis(address: string): Promise<LandAnalysis> {
+  const res = await fetch(`/api/analyze?address=${encodeURIComponent(address.trim())}`);
+  if (!res.ok) throw new Error("분석 API 오류");
+  return res.json();
+}
 
 function AnalyzeContent() {
   const searchParams = useSearchParams();
@@ -20,27 +25,30 @@ function AnalyzeContent() {
   const [analysis, setAnalysis] = useState<LandAnalysis | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const runAnalysis = useCallback((addr: string) => {
+  const runAnalysis = useCallback(async (addr: string) => {
     if (!addr.trim()) return;
     setLoading(true);
-    setTimeout(() => {
-      setAnalysis(analyzeLand(addr.trim()));
-      setLoading(false);
+    try {
+      const result = await fetchAnalysis(addr.trim());
+      setAnalysis(result);
       router.replace(`/analyze?address=${encodeURIComponent(addr.trim())}`, {
         scroll: false,
       });
-    }, 800);
+    } catch {
+      setAnalysis(null);
+    } finally {
+      setLoading(false);
+    }
   }, [router]);
 
   useEffect(() => {
     if (!initialAddress.trim()) return;
     setAddress(initialAddress);
     setLoading(true);
-    const timer = setTimeout(() => {
-      setAnalysis(analyzeLand(initialAddress.trim()));
-      setLoading(false);
-    }, 800);
-    return () => clearTimeout(timer);
+    fetchAnalysis(initialAddress.trim())
+      .then(setAnalysis)
+      .catch(() => setAnalysis(null))
+      .finally(() => setLoading(false));
   }, [initialAddress]);
 
   const handleDownload = () => {

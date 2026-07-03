@@ -29,6 +29,8 @@ export interface LandAnalysis {
   overallScore: number;
   developmentFeasibility: "high" | "medium" | "low";
   summary: string;
+  aiModel?: string;
+  dataSource: "live" | "partial" | "mock";
 }
 
 export interface UserSession {

@@ -91,6 +91,7 @@ export function analyzeLand(address: string): LandAnalysis {
     overallScore: Math.min(100, overallScore),
     developmentFeasibility: feasibility,
     summary: summaries[feasibility],
+    dataSource: "mock",
   };
 }
 
